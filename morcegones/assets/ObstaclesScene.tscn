@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://scripts/obstacles.gd" type="Script" id=1]
+[ext_resource path="res://assets/cano/canoG.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 92.3411, 2222.68 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 96.5067, 438.907 )
+
+[sub_resource type="SegmentShape2D" id=3]
+
+custom_solver_bias = 0.0
+a = Vector2( 1.41296, -206.23 )
+b = Vector2( 1.41296, 206.779 )
+
+[node name="ObstaclesNode" type="Node2D"]
+
+script/script = ExtResource( 1 )
+speed = -150
+
+[node name="TopObstacle" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, -1225 )
+transform/scale = Vector2( 3, 8 )
+texture = ExtResource( 2 )
+flip_v = true
+
+[node name="BottomObstacle" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 1225 )
+transform/scale = Vector2( 3, 8 )
+texture = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 0.450249, -1.61365, -1218.56 )
+shapes/0/trigger = false
+shapes/1/shape = SubResource( 2 )
+shapes/1/transform = Matrix32( 1, 0, 0, 2.13295, 0.947876, 1142.9 )
+shapes/1/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="TopObstacleCollisionShape" type="CollisionShape2D" parent="Area2D"]
+
+transform/pos = Vector2( -1.61365, -1218.56 )
+transform/scale = Vector2( 1, 0.450249 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="BottomObstacleCollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+transform/pos = Vector2( 0.947876, 1142.9 )
+transform/scale = Vector2( 1, 2.13295 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 1
+
+[node name="Area2DScoreDetector" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 315, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2DScoreDetector" type="CollisionShape2D" parent="Area2DScoreDetector"]
+
+transform/pos = Vector2( 315, 0 )
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 0
+
+[connection signal="body_enter" from="Area2D" to="." method="_on_Area2D_body_enter"]
+
+[connection signal="body_enter" from="Area2DScoreDetector" to="." method="_on_Area2DScoreDetector_body_enter"]
+
+
